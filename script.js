@@ -438,7 +438,7 @@ function initScrollProgress() {
 
 // ===== 3D TILT EFFECT FOR CARDS =====
 function initTiltEffect() {
-    const tiltElements = document.querySelectorAll('.card, .accordion-item');
+    const tiltElements = document.querySelectorAll('.card:not(.no-tilt), .accordion-item');
 
     tiltElements.forEach(element => {
         element.addEventListener('mousemove', (e) => {

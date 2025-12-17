@@ -2780,3 +2780,30 @@ body.dark-mode .theme-toggle-btn i {
         height: 45px;
     }
 }
+
+/* ============================================
+   CUSTOM STYLES FOR SERVICE PREVIEW CARDS
+   ============================================ */
+
+.service-preview-card .card-icon {
+    /* Hacemos que el ícono sea un cuadrado simétrico con 20px de margen en todos los lados */
+    width: auto; /* Dejamos que el ancho se ajuste por los márgenes */
+    height: auto;
+    aspect-ratio: 1 / 1; /* Para que sea un cuadrado perfecto */
+    margin: 10px; /* 10px de margen en todos los lados */
+    border-radius: var(--radius-lg); /* Redondea todas las esquinas */
+}
+
+.service-preview-card .card-icon i {
+    font-size: 2rem; /* Reducimos más el ícono */
+}
+
+/* Anula la animación de inclinación y crecimiento en las tarjetas de servicio */
+.service-preview-card:hover .card-icon {
+    transform: none; /* Elimina la inclinación y el escalado */
+    background: var(--accent); /* Restaura el cambio de color de fondo */
+}
+
+.service-preview-card:hover .card-icon i {
+    color: white; /* Restaura el cambio de color del ícono */
+}

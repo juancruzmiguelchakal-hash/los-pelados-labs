@@ -2734,6 +2734,20 @@ body.dark-mode .navbar.scrolled {
     background: rgba(15, 23, 42, 0.95);
 }
 
+/* Radial Map Dark Mode */
+body.dark-mode .radial-center {
+    background: rgba(30, 41, 59, 0.9); /* Slate 800 con transparencia */
+    border-color: var(--border-light);
+}
+
+body.dark-mode .service-bubble {
+    background: rgba(30, 41, 59, 0.9); /* Slate 800 con transparencia */
+}
+
+body.dark-mode .project-card .project-image::before {
+    background: rgba(15, 23, 42, 0.95); /* bg-primary oscuro */
+}
+
 /* Botón Flotante de Cambio de Tema */
 .theme-toggle-btn {
     position: fixed;
@@ -2785,17 +2799,26 @@ body.dark-mode .theme-toggle-btn i {
    CUSTOM STYLES FOR SERVICE PREVIEW CARDS
    ============================================ */
 
+.service-preview-card {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .service-preview-card .card-icon {
-    /* Hacemos que el ícono sea un cuadrado simétrico con 20px de margen en todos los lados */
-    width: auto; /* Dejamos que el ancho se ajuste por los márgenes */
-    height: auto;
-    aspect-ratio: 1 / 1; /* Para que sea un cuadrado perfecto */
-    margin: 10px; /* 10px de margen en todos los lados */
-    border-radius: var(--radius-lg); /* Redondea todas las esquinas */
+    width: calc(100% - 30px); /* 15px de margen a cada lado */
+    height: 125px; /* 85px + 40px extra */
+    border-radius: var(--radius-lg);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--space-xl);
 }
 
 .service-preview-card .card-icon i {
-    font-size: 2rem; /* Reducimos más el ícono */
+    font-size: 2.5rem;
+}
+
+.service-preview-content {
+    padding: 0 var(--space-xl) var(--space-xl);
 }
 
 /* Anula la animación de inclinación y crecimiento en las tarjetas de servicio */

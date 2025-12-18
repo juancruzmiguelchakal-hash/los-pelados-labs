@@ -134,27 +134,40 @@ function initCalculator() {
 
     // --- FUNCTIONS ---
     function selectCategory(cat, btn) {
-        currentCategory = cat;
+        const isAlreadySelected = btn.classList.contains('selected');
 
-        // Visual update
-        categoryBtns.forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-
-        // Show/Hide Service Groups
+        // Ocultar todos los grupos y deseleccionar todos los botones primero
         document.querySelectorAll('.service-category-group').forEach(el => el.style.display = 'none');
-        document.getElementById(`cat-${cat}`).style.display = 'block';
+        categoryBtns.forEach(b => b.classList.remove('selected'));
 
-        // Show/Hide Hosting Logic
-        if (hostingRow) {
-            hostingRow.style.display = (cat === 'web') ? 'block' : 'none';
-            if (cat !== 'web') {
-                if (hostingPlanSelect) hostingPlanSelect.value = 0;
-                if (domainPlanSelect) domainPlanSelect.value = 0;
+        if (isAlreadySelected) {
+            // Si ya estaba seleccionado, lo cerramos y reseteamos
+            currentCategory = '';
+            selectedService = { name: '', minPrice: 0, maxPrice: 0, type: '', category: '' };
+            serviceOptions.forEach(el => el.classList.remove('selected'));
+            updateTotal();
+        } else {
+            // Si no estaba seleccionado, lo abrimos
+            currentCategory = cat;
+
+            // Visual update
+            btn.classList.add('selected');
+
+            // Show/Hide Service Groups
+            document.getElementById(`cat-${cat}`).style.display = 'block';
+
+            // Show/Hide Hosting Logic
+            if (hostingRow) {
+                hostingRow.style.display = (cat === 'web') ? 'block' : 'none';
+                if (cat !== 'web') {
+                    if (hostingPlanSelect) hostingPlanSelect.value = 0;
+                    if (domainPlanSelect) domainPlanSelect.value = 0;
+                }
             }
+            selectedService = { name: '', minPrice: 0, maxPrice: 0, type: '', category: cat };
+            serviceOptions.forEach(el => el.classList.remove('selected'));
+            updateTotal();
         }
-        selectedService = { name: '', minPrice: 0, maxPrice: 0, type: '', category: cat };
-        serviceOptions.forEach(el => el.classList.remove('selected'));
-        updateTotal();
     }
 
     function selectService(element, id, price, type) {

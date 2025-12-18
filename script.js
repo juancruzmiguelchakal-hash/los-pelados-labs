@@ -108,7 +108,7 @@ function initCalculator() {
     if (!calculatorBox) return;
 
     // --- STATE ---
-    let selectedService = { name: '', price: 0, type: '' };
+    let selectedService = { name: '', minPrice: 0, maxPrice: 0, type: '', category: 'web' };
     let currentCategory = 'web';
 
     // --- ELEMENTS ---
@@ -121,39 +121,38 @@ function initCalculator() {
     const extraSectionsInput = document.getElementById('extraSections'); // Puede ser null
     const sectionsRow = document.getElementById('sectionsRow'); // Puede ser null
     const hostingRow = document.getElementById('hostingRow'); // Puede ser null
+    const hostingPlanSelect = document.getElementById('hostingPlan');
+    const domainPlanSelect = document.getElementById('domainPlan');
+    const contractDurationSelect = document.getElementById('contractDuration');
     const extraCheckboxes = document.querySelectorAll('.checkbox-item input'); // Puede ser null
 
     const complexityInfo = {
-        "0": "Diseño estándar, plantilla base. (Sin costo extra)",
-        "0.50": "Diseño personalizado, integraciones a medida. (+50%)",
-        "1.00": "Solución Premium, diseño único, avanzado. (+100%)"
+        "basico": "Diseño estándar, plantilla base. (Precio Mínimo)",
+        "intermedio": "Diseño personalizado, funcionalidades a medida. (Precio Intermedio)",
+        "avanzado": "Solución Premium, diseño único, avanzado. (Precio Máximo)"
     };
 
     // --- FUNCTIONS ---
     function selectCategory(cat, btn) {
-        const isAlreadyActive = btn.classList.contains('selected');
+        currentCategory = cat;
 
-        // Primero, deseleccionamos todos los botones y ocultamos todos los grupos.
+        // Visual update
         categoryBtns.forEach(b => b.classList.remove('selected'));
-        document.querySelectorAll('.service-category-group').forEach(group => {
-            group.style.display = 'none';
-        });
+        btn.classList.add('selected');
 
-        // Si el botón clickeado NO estaba activo, lo activamos y mostramos su contenido.
-        if (!isAlreadyActive) {
-            btn.classList.add('selected');
-            document.getElementById(`cat-${cat}`).style.display = 'block';
-            currentCategory = cat;
-        } else {
-            // Si ya estaba activo, lo dejamos cerrado.
-            currentCategory = null;
+        // Show/Hide Service Groups
+        document.querySelectorAll('.service-category-group').forEach(el => el.style.display = 'none');
+        document.getElementById(`cat-${cat}`).style.display = 'block';
+
+        // Show/Hide Hosting Logic
+        if (hostingRow) {
+            hostingRow.style.display = (cat === 'web') ? 'block' : 'none';
+            if (cat !== 'web') {
+                if (hostingPlanSelect) hostingPlanSelect.value = 0;
+                if (domainPlanSelect) domainPlanSelect.value = 0;
+            }
         }
-
-        // La fila de hosting solo se muestra si una categoría 'web' está activa.
-        if (hostingRow) hostingRow.style.display = (currentCategory === 'web') ? 'block' : 'none';
-
-        // Reseteamos cualquier servicio seleccionado al cambiar o cerrar categorías.
-        selectedService = { name: '', price: 0, type: '' };
+        selectedService = { name: '', minPrice: 0, maxPrice: 0, type: '', category: cat };
         serviceOptions.forEach(el => el.classList.remove('selected'));
         updateTotal();
     }
@@ -161,21 +160,23 @@ function initCalculator() {
     function selectService(element, id, price, type) {
         const isAlreadySelected = element.classList.contains('selected');
 
-        // Deselect all first
+        // Deseleccionar todo primero
         serviceOptions.forEach(el => el.classList.remove('selected'));
 
         if (isAlreadySelected) {
-            // If it was already selected, just deselect it and reset
-            selectedService = { name: '', price: 0, type: '' };
+            // Si ya estaba seleccionado, lo deseleccionamos y reseteamos
+            selectedService = { name: '', minPrice: 0, maxPrice: 0, type: '', category: currentCategory };
             if (sectionsRow) sectionsRow.style.display = 'none';
             if (extraSectionsInput) extraSectionsInput.value = 0;
         } else {
-            // If it was not selected, select it
+            // Si no estaba seleccionado, lo seleccionamos
             element.classList.add('selected');
             selectedService = {
                 name: element.querySelector('.calc-option-title').innerText,
-                price: price,
-                type: type
+                minPrice: arguments[2], // minPrice
+                maxPrice: arguments[3], // maxPrice
+                type: type,
+                category: currentCategory
             };
             if (sectionsRow) sectionsRow.style.display = (type === 'web_multi') ? 'block' : 'none';
             if (extraSectionsInput && type !== 'web_multi') extraSectionsInput.value = 0;
@@ -191,24 +192,51 @@ function initCalculator() {
             return;
         }
 
-        let total = selectedService.price;
-        let detailParts = [selectedService.name];
+        let total = 0;
+        let basePrice = selectedService.minPrice;
 
         if (complexitySelect) {
-            const complexityVal = parseFloat(complexitySelect.value);
-            total += (selectedService.price * complexityVal);
-            if (complexityVal > 0) detailParts.push('Complejidad');
+            const complexityLevel = complexitySelect.value;
+            switch (complexityLevel) {
+                case 'intermedio':
+                    basePrice = (selectedService.minPrice + selectedService.maxPrice) / 2;
+                    break;
+                case 'avanzado':
+                    basePrice = selectedService.maxPrice;
+                    break;
+                case 'basico':
+                default:
+                    basePrice = selectedService.minPrice;
+            }
             if (complexityDescription) complexityDescription.innerText = complexityInfo[complexitySelect.value];
         }
+        total += basePrice;
 
         if (extraSectionsInput && sectionsRow && sectionsRow.style.display !== 'none') {
             const extraSec = parseInt(extraSectionsInput.value) || 0;
             total += (extraSec * 100000);
-            if (extraSec > 0) detailParts.push('Secciones');
         }
 
         if (hostingRow && hostingRow.style.display !== 'none') {
-            // Aquí iría la lógica de hosting si se restaura
+            let hostingTotal = 0;
+            let domainTotal = 0;
+
+            const duration = parseInt(contractDurationSelect.value) || 1;
+            const hostingMonthly = parseInt(hostingPlanSelect.value) || 0;
+            const domainAnnual = parseInt(domainPlanSelect.value) || 0;
+
+            let discount = 0;
+            if (duration === 2) discount = 0.05;
+            if (duration === 3) discount = 0.10;
+            if (duration === 4) discount = 0.15;
+
+            hostingTotal = (hostingMonthly * 12 * duration);
+            domainTotal = (domainAnnual * duration);
+
+            hostingTotal = hostingTotal * (1 - discount);
+            domainTotal = domainTotal * (1 - discount);
+
+            total += (hostingTotal + domainTotal);
         }
 
         extraCheckboxes.forEach(cb => {
@@ -216,83 +244,122 @@ function initCalculator() {
                 total += parseInt(cb.value);
             }
         });
-        if (Array.from(extraCheckboxes).some(cb => cb.checked)) {
-            detailParts.push('Extras');
-        }
 
         priceValueEl.innerText = formatPrice(total);
-        priceDetailEl.innerText = detailParts.join(' + ');
+        priceDetailEl.innerText = `${selectedService.name} + Extras/Complejidad`;
     }
 
     // --- INITIALIZATION ---
     categoryBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const catMatch = btn.getAttribute('onclick').match(/'([^']+)'/);
-            if (catMatch) {
-                selectCategory(catMatch[1], btn);
-            }
-        });
+        const onclickAttr = btn.getAttribute('onclick');
+        if (!onclickAttr) return;
+        const catMatch = onclickAttr.match(/'([^']+)'/);
+        if (catMatch) {
+            const cat = catMatch[1];
+            btn.addEventListener('click', () => selectCategory(cat, btn));
+        }
+        btn.removeAttribute('onclick');
     });
 
     serviceOptions.forEach(option => {
-        option.addEventListener('click', () => {
-            const onclickAttr = option.getAttribute('onclick');
-            const params = onclickAttr.match(/'([^']*)'|(\d+)/g).map(p => p.replace(/'/g, ''));
-            selectService(option, params[1], parseInt(params[2]), params[3]);
-        });
+        const onclickAttr = option.getAttribute('onclick');
+        if (!onclickAttr) return;
+        // Regex mejorada para capturar los 3 argumentos de selectService()
+        const paramsMatch = onclickAttr.match(/selectService\(this, '([^']*)', (\d+), (\d+), '([^']*)'\)/);
+        if (!paramsMatch) return; // Skip if it doesn't match the new format
+        const [, id, minPriceStr, maxPriceStr, type] = paramsMatch;
+        const minPrice = parseInt(minPriceStr);
+        const maxPrice = parseInt(maxPriceStr);
+        option.addEventListener('click', () => selectService(option, id, minPrice, maxPrice, type));
+        // Guardamos los datos del onclick para usarlos después, ya que el atributo se va a borrar
+        option.setAttribute('onclick_data', onclickAttr);
+        option.removeAttribute('onclick');
+    });
+
+    document.querySelectorAll('.checkbox-item').forEach(item => {
+        const onclickAttr = item.getAttribute('onclick');
+        if (onclickAttr) {
+            item.addEventListener('click', () => toggleCheckbox(item));
+            item.removeAttribute('onclick');
+        }
+    });
+
+    // Re-bind global functions that might have been removed
+    const quoteButton = document.querySelector('.btn-whatsapp.btn-lg');
+    if (quoteButton) {
+        quoteButton.setAttribute('onclick', 'sendCalculatedQuote()');
+    }
+    const calendlyButtons = document.querySelectorAll('[onclick*="openCalendly"]');
+    calendlyButtons.forEach(btn => {
+        if (!btn.getAttribute('onclick')) {
+            btn.setAttribute('onclick', 'openCalendly()');
+        }
     });
 
     if (complexitySelect) complexitySelect.addEventListener('change', updateTotal);
     if (extraSectionsInput) extraSectionsInput.addEventListener('input', updateTotal);
+    if (hostingPlanSelect) hostingPlanSelect.addEventListener('change', updateTotal);
+    if (domainPlanSelect) domainPlanSelect.addEventListener('change', updateTotal);
+    if (contractDurationSelect) contractDurationSelect.addEventListener('change', updateTotal);
 
-    extraCheckboxes.forEach(checkbox => {
-        const parent = checkbox.closest('.checkbox-item');
-        if (parent) {
-            parent.addEventListener('click', () => {
-                parent.classList.toggle('selected');
-                checkbox.checked = !checkbox.checked;
-                updateTotal();
-            });
-        }
-    });
+    function toggleCheckbox(element) {
+        element.classList.toggle('selected');
+        const checkbox = element.querySelector('input');
+        checkbox.checked = !checkbox.checked;
+        updateTotal();
+    }
 
-    // Al inicio, ocultamos todas las categorías.
-    document.querySelectorAll('.service-category-group').forEach(group => group.style.display = 'none');
-    categoryBtns.forEach(b => b.classList.remove('selected'));
+    // Initial state: reset everything on load for a clean start.
+    selectCategory('web', document.querySelector('.category-btn'));
 }
 
 window.sendCalculatedQuote = function() {
-    const serviceName = document.querySelector('.calc-option.selected .calc-option-title')?.innerText;
-    if (!serviceName) return alert('Por favor, seleccioná un servicio primero.');
+    const selectedOption = document.querySelector('.calc-option.selected');
+    if (!selectedOption) return alert('Por favor, seleccioná un servicio primero.');
 
-    const complexitySelect = document.getElementById('complexity'); // Puede ser null
-    const complexityText = complexitySelect.options[complexitySelect.selectedIndex].text;
-    
+    const serviceName = selectedOption.querySelector('.calc-option-title').innerText;
+    // Usamos el objeto `selectedService` que ya tiene la información correcta
+    const serviceType = selectedService.type;
+
+    const complexityText = document.getElementById('complexity').options[document.getElementById('complexity').selectedIndex].text;
     const extraSections = document.getElementById('extraSections').value;
-    
     const extras = Array.from(document.querySelectorAll('.checkbox-item input:checked'))
-        .map(cb => cb.dataset.name).join(', ');
-        
+        .map(cb => cb.getAttribute('data-name')).join(', ');
     const finalPrice = document.getElementById('priceValue').innerText;
 
-    let message = `¡Hola! Quiero confirmar un presupuesto estimado desde la web:\n\n`;
-    message += `*Servicio:* ${serviceName}\n`;
-    message += `*Complejidad:* ${complexityText}\n`;
+    let message = `Hola! Quiero confirmar un presupuesto estimado desde la web:%0A`;
+    message += `🔹 Servicio: *${serviceName}*%0A`;
+    message += `🔹 Complejidad: ${complexityText}%0A`;
 
-    if (document.getElementById('sectionsRow')?.style.display !== 'none' && extraSections > 0) {
-        message += `*Secciones Extra:* ${extraSections}\n`;
+    if (serviceType === 'web_multi' && extraSections > 0) {
+        message += `🔹 Secciones Extra: ${extraSections}%0A`;
     }
 
-    if (extras) {
-        message += `*Extras:* ${extras}\n`;
+    const selectedCategoryBtn = document.querySelector('.category-btn.selected');
+    const currentCategory = selectedCategoryBtn && selectedCategoryBtn.innerText.includes('Web') ? 'web' : 'other';
+    if (currentCategory === 'web') {
+        const duration = document.getElementById('contractDuration').options[document.getElementById('contractDuration').selectedIndex].text;
+        const hosting = document.getElementById('hostingPlan').options[document.getElementById('hostingPlan').selectedIndex].text;
+        const domain = document.getElementById('domainPlan').options[document.getElementById('domainPlan').selectedIndex].text;
+
+        if (document.getElementById('hostingPlan').value != 0) message += `🔹 Hosting: ${hosting}%0A`;
+        if (document.getElementById('domainPlan').value != 0) message += `🔹 Dominio: ${domain}%0A`;
+        if (document.getElementById('hostingPlan').value != 0 || document.getElementById('domainPlan').value != 0) {
+             message += `🔹 Contrato: ${duration}%0A`;
+        }
     }
-    message += `\n*Presupuesto Estimado: ${finalPrice}*`;
+
+    if (extras) message += `🔹 Extras: ${extras}%0A`;
+    message += `💰 *Presupuesto Estimado: ${finalPrice}*`;
 
     openWhatsApp(message);
 }
 
 
 function formatPrice(amount) {
+    if (isNaN(amount)) { // Safety check
+        return '$0';
+    }
     return new Intl.NumberFormat('es-AR', {
         style: 'currency',
         currency: 'ARS',

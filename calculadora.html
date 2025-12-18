@@ -97,6 +97,27 @@
                             justify-content: center;
                             align-items: center;
                             text-align: center;
+                            cursor: pointer;
+                            border: 1px solid var(--border);
+                            border-radius: var(--radius-md);
+                            transition: all 0.2s ease-in-out;
+                        }
+
+                        .calc-option:hover {
+                            border-color: var(--accent);
+                            transform: translateY(-2px);
+                        }
+
+                        .calc-option.selected {
+                            border-color: var(--accent);
+                            background-color: var(--bg-tertiary);
+                            box-shadow: 0 0 0 2px var(--accent);
+                            transform: translateY(-2px);
+                        }
+
+                        .checkbox-item.selected {
+                            border-color: var(--accent);
+                            background-color: var(--bg-tertiary);
                         }
 
                         .calc-option-icon {
@@ -113,7 +134,7 @@
 
                         .calc-option-price {
                             font-size: 0.85rem;
-                            color: var(--primary);
+                            color: var(--text-secondary);
                         }
 
                         @media (max-width: 768px) {
@@ -126,44 +147,44 @@
                     <!-- Web Services -->
                     <div id="cat-web" class="service-category-group">
                         <div class="grid-4">
-                            <div class="calc-option" onclick="selectService(this, 'web_landing', 200000, 'web')">
+                            <div class="calc-option" onclick="selectService(this, 'web_landing', 150000, 250000, 'web')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-rocket"></i></div>
                                 <div class="calc-option-title">Landing Page</div>
                                 <div class="calc-option-price">$150k - $250k</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'web_multi', 400000, 'web_multi')">
+                            <div class="calc-option" onclick="selectService(this, 'web_multi', 400000, 650000, 'web_multi')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-sitemap"></i></div>
                                 <div class="calc-option-title">Multipágina</div>
                                 <div class="calc-option-price" style="font-weight:700;">$400k Base</div>
                                 <div style="font-size:0.75rem; color:#888;">(4 secc. incluye Home)</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'web_ecommerce', 450000, 'web')">
+                            <div class="calc-option" onclick="selectService(this, 'web_ecommerce', 350000, 900000, 'web')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-cart-shopping"></i></div>
                                 <div class="calc-option-title">E-commerce</div>
                                 <div class="calc-option-price">$350k+</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'web_portfolio', 225000, 'web')">
+                            <div class="calc-option" onclick="selectService(this, 'web_portfolio', 150000, 300000, 'web')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-id-card"></i></div>
                                 <div class="calc-option-title">Portafolio</div>
                                 <div class="calc-option-price">$150k - $300k</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'web_blog', 325000, 'web_multi')">
+                            <div class="calc-option" onclick="selectService(this, 'web_blog', 200000, 450000, 'web_multi')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-blog"></i></div>
                                 <div class="calc-option-title">Blog</div>
                                 <div class="calc-option-price">$200k - $450k</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'web_redesign_land', 154000, 'web')">
+                            <div class="calc-option" onclick="selectService(this, 'web_redesign_land', 110000, 198000, 'web')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-rotate"></i></div>
                                 <div class="calc-option-title">Rediseño Landing</div>
                                 <div class="calc-option-price">$110k - $198k</div>
                             </div>
                             <div class="calc-option"
-                                onclick="selectService(this, 'web_redesign_site', 247500, 'web_multi')">
+                                onclick="selectService(this, 'web_redesign_site', 165000, 330000, 'web_multi')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-laptop-code"></i></div>
                                 <div class="calc-option-title">Rediseño Web</div>
                                 <div class="calc-option-price">$165k - $330k</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'web_redesign_shop', 440000, 'web')">
+                            <div class="calc-option" onclick="selectService(this, 'web_redesign_shop', 220000, 660000, 'web')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-cart-arrow-down"></i></div>
                                 <div class="calc-option-title">Rediseño Tienda</div>
                                 <div class="calc-option-price">$220k - $660k</div>
@@ -174,48 +195,48 @@
                     <!-- Design Services -->
                     <div id="cat-design" class="service-category-group" style="display: none;">
                         <div class="grid-4">
-                            <div class="calc-option" onclick="selectService(this, 'design_logo', 88000, 'design')">
+                            <div class="calc-option" onclick="selectService(this, 'design_logo', 66000, 110000, 'design')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-pen-nib"></i></div>
                                 <div class="calc-option-title">Logo Pro</div>
                                 <div class="calc-option-price">$66k - $110k</div>
                             </div>
                             <div class="calc-option"
-                                onclick="selectService(this, 'design_logo_redesign', 60500, 'design')">
+                                onclick="selectService(this, 'design_logo_redesign', 44000, 77000, 'design')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-pencil"></i></div>
                                 <div class="calc-option-title">Rediseño Logo</div>
                                 <div class="calc-option-price">$44k - $77k</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'design_brand', 165000, 'design')">
+                            <div class="calc-option" onclick="selectService(this, 'design_brand', 165000, 300000, 'design')"> 
                                 <div class="calc-option-icon"><i class="fa-solid fa-swatchbook"></i></div>
                                 <div class="calc-option-title">Branding</div>
                                 <div class="calc-option-price">$165k+</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'design_flyer', 22000, 'design')">
+                            <div class="calc-option" onclick="selectService(this, 'design_flyer', 11000, 27500, 'design')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-image"></i></div>
                                 <div class="calc-option-title">Flyer Digital</div>
                                 <div class="calc-option-price">$11k - $27.5k</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'design_banner', 23100, 'design')">
+                            <div class="calc-option" onclick="selectService(this, 'design_banner', 13200, 33000, 'design')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-scroll"></i></div>
                                 <div class="calc-option-title">Banner</div>
                                 <div class="calc-option-price">$13.2k - $33k</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'design_card', 16500, 'design')">
+                            <div class="calc-option" onclick="selectService(this, 'design_card', 11000, 22000, 'design')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-address-card"></i></div>
                                 <div class="calc-option-title">Tarjetas</div>
                                 <div class="calc-option-price">$11k - $22k</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'design_video', 44000, 'design')">
+                            <div class="calc-option" onclick="selectService(this, 'design_video', 22000, 66000, 'design')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-video"></i></div>
                                 <div class="calc-option-title">Edición Video</div>
                                 <div class="calc-option-price">$22k - $66k</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'design_photo', 18150, 'design')">
+                            <div class="calc-option" onclick="selectService(this, 'design_photo', 8800, 27500, 'design')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-camera-retro"></i></div>
                                 <div class="calc-option-title">Edición Fotos</div>
                                 <div class="calc-option-price">$8.8k - $27.5k</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'design_social', 9350, 'design')">
+                            <div class="calc-option" onclick="selectService(this, 'design_social', 5500, 13200, 'design')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-share-nodes"></i></div>
                                 <div class="calc-option-title">Post Redes</div>
                                 <div class="calc-option-price">$5.5k - $13.2k</div>
@@ -226,12 +247,12 @@
                     <!-- Monthly Services -->
                     <div id="cat-monthly" class="service-category-group" style="display: none;">
                         <div class="grid-4">
-                            <div class="calc-option" onclick="selectService(this, 'maint_basic', 50000, 'monthly')">
+                            <div class="calc-option" onclick="selectService(this, 'maint_basic', 15000, 100000, 'monthly')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
                                 <div class="calc-option-title">Mantenimiento</div>
                                 <div class="calc-option-price">$15k - $100k/mes</div>
                             </div>
-                            <div class="calc-option" onclick="selectService(this, 'social_basic', 245000, 'monthly')">
+                            <div class="calc-option" onclick="selectService(this, 'social_basic', 90000, 400000, 'monthly')">
                                 <div class="calc-option-icon"><i class="fa-solid fa-hashtag"></i></div>
                                 <div class="calc-option-title">Gestión Redes</div>
                                 <div class="calc-option-price">$90k - $400k/mes</div>
@@ -246,9 +267,9 @@
                 <div class="calc-row">
                     <label><i class="fa-solid fa-layer-group"></i> Nivel de Complejidad</label>
                     <select id="complexity" onchange="updateTotal()">
-                        <option value="0">Básico (Estándar)</option>
-                        <option value="0.50">Intermedio (+50%)</option>
-                        <option value="1.00">Avanzado (+100%)</option>
+                        <option value="basico">Básico (Estándar)</option>
+                        <option value="intermedio">Intermedio</option>
+                        <option value="avanzado">Avanzado</option>
                     </select>
                     <p class="calc-note" id="complexityDescription">Diseño estándar, plantilla base. (Sin costo extra)
                     </p>
@@ -426,170 +447,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
     <script src="script.js"></script>
-
-    <!-- INLINE CALCULATOR LOGIC (Extracted from precios.html) -->
-    <script>
-        // --- CALCULATOR LOGIC 2.0 ---
-        let selectedService = { name: '', price: 0, type: '', category: 'web' };
-        let currentCategory = 'web';
-
-        const complexityInfo = {
-            "0": "Diseño estándar, plantilla base. (Sin costo extra)",
-            "0.50": "Diseño personalizado, integraciones a medida. (+50%)",
-            "1.00": "Solución Premium, diseño único, avanzado. (+100%)"
-        };
-
-        function selectCategory(cat, btn) {
-            currentCategory = cat;
-
-            // Visual update
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-
-            // Show/Hide Service Groups
-            document.querySelectorAll('.service-category-group').forEach(el => el.style.display = 'none');
-            document.getElementById(`cat-${cat}`).style.display = 'block';
-
-            // Show/Hide Hosting Logic
-            const hostingRow = document.getElementById('hostingRow');
-            if (cat === 'web') {
-                hostingRow.style.display = 'block';
-            } else {
-                hostingRow.style.display = 'none';
-                // Reset hosting/domain selections when creating non-web quotes
-                document.getElementById('hostingPlan').value = 0;
-                document.getElementById('domainPlan').value = 0;
-            }
-
-            // Reset selection when changing category
-            selectedService = { name: '', price: 0, type: '', category: cat };
-            document.querySelectorAll('.calc-option').forEach(el => el.classList.remove('selected'));
-
-            updateTotal();
-        }
-
-        function selectService(element, id, price, type) {
-            document.querySelectorAll('.calc-option').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-
-            selectedService = {
-                name: element.querySelector('.calc-option-title').innerText,
-                price: price,
-                type: type,
-                category: currentCategory
-            };
-
-            // Extra Sections Logic
-            const secRow = document.getElementById('sectionsRow');
-            if (type === 'web_multi') {
-                secRow.style.display = 'block';
-            } else {
-                secRow.style.display = 'none';
-                document.getElementById('extraSections').value = 0;
-            }
-
-            updateTotal();
-        }
-
-        function toggleCheckbox(element) {
-            element.classList.toggle('selected');
-            const checkbox = element.querySelector('input');
-            checkbox.checked = !checkbox.checked;
-            updateTotal();
-        }
-
-        function updateTotal() {
-            if (!selectedService.name) {
-                document.getElementById('priceValue').innerText = '$0';
-                document.getElementById('priceDetail').innerText = 'Seleccioná un servicio';
-                return;
-            }
-
-            // 1. Base
-            let total = selectedService.price;
-
-            // 2. Complexity
-            const complexityVal = parseFloat(document.getElementById('complexity').value);
-            total += (selectedService.price * complexityVal);
-
-            // Description
-            document.getElementById('complexityDescription').innerText = complexityInfo[document.getElementById('complexity').value];
-
-            // 3. Sections
-            const extraSec = parseInt(document.getElementById('extraSections').value) || 0;
-            total += (extraSec * 100000);
-
-            // 4. Hosting & Domain (Only if visible aka Web)
-            let hostingTotal = 0;
-            let domainTotal = 0;
-
-            if (currentCategory === 'web') {
-                const duration = parseInt(document.getElementById('contractDuration').value) || 1;
-                const hostingMonthly = parseInt(document.getElementById('hostingPlan').value) || 0;
-                const domainAnnual = parseInt(document.getElementById('domainPlan').value) || 0;
-
-                // Discounts logic
-                let discount = 0;
-                if (duration === 2) discount = 0.05;
-                if (duration === 3) discount = 0.10;
-                if (duration === 4) discount = 0.15;
-
-                // Hosting Cost for Full Duration = Monthly * 12 * Years
-                hostingTotal = (hostingMonthly * 12 * duration);
-
-                // Domain Cost for Full Duration = Annual * Years
-                domainTotal = (domainAnnual * duration);
-
-                // Apply Discount
-                hostingTotal = hostingTotal * (1 - discount);
-                domainTotal = domainTotal * (1 - discount);
-
-                total += (hostingTotal + domainTotal);
-            }
-
-            // 5. Extras
-            document.querySelectorAll('.checkbox-item input:checked').forEach(cb => {
-                total += parseInt(cb.value);
-            });
-
-            // Format Output
-            document.getElementById('priceValue').innerText = '$' + total.toLocaleString('es-AR');
-            document.getElementById('priceDetail').innerText = `${selectedService.name} + Extras/Complejidad`;
-        }
-
-        function sendCalculatedQuote() {
-            if (!selectedService.name) return alert('Por favor, seleccioná un servicio primero.');
-
-            const complexityText = document.getElementById('complexity').options[document.getElementById('complexity').selectedIndex].text;
-            const extraSections = document.getElementById('extraSections').value;
-            const extras = Array.from(document.querySelectorAll('.checkbox-item input:checked')).map(cb => cb.dataset.name).join(', ');
-            const finalPrice = document.getElementById('priceValue').innerText;
-
-            let message = `Hola! Quiero confirmar un presupuesto estimado desde la web:%0A`;
-            message += `🔹 Servicio: *${selectedService.name}*%0A`;
-            message += `🔹 Complejidad: ${complexityText}%0A`;
-
-            if (selectedService.type === 'web_multi' && extraSections > 0) {
-                message += `🔹 Secciones Extra: ${extraSections}%0A`;
-            }
-
-            // Hosting & Domain Info
-            if (currentCategory === 'web') {
-                const duration = document.getElementById('contractDuration').options[document.getElementById('contractDuration').selectedIndex].text;
-                const hosting = document.getElementById('hostingPlan').options[document.getElementById('hostingPlan').selectedIndex].text;
-                const domain = document.getElementById('domainPlan').options[document.getElementById('domainPlan').selectedIndex].text;
-
-                if (document.getElementById('hostingPlan').value != 0) message += `🔹 Hosting: ${hosting}%0A`;
-                if (document.getElementById('domainPlan').value != 0) message += `🔹 Dominio: ${domain}%0A`;
-                message += `🔹 Contrato: ${duration}%0A`;
-            }
-
-            if (extras) message += `🔹 Extras: ${extras}%0A`;
-            message += `💰 *Presupuesto Estimado: ${finalPrice}*`;
-
-            window.open(`https://wa.me/5491130489378?text=${message}`, '_blank');
-        }
-    </script>
 </body>
 
 </html>

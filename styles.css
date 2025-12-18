@@ -2860,3 +2860,167 @@ body.dark-mode .theme-toggle-btn i {
 .service-preview-card:hover .card-icon i {
     color: white; /* Restaura el cambio de color del ícono */
 }
+
+/* ============================================
+   EXPANDING CARDS & ABOUT REWORK
+   ============================================ */
+
+/* --- 1. SECCIÓN SOBRE NOSOTROS (Layout Imagen + Texto) --- */
+.about-split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: center;
+}
+
+.about-image-container {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: visible; /* Permitir que la tarjeta flote fuera */
+}
+
+.about-main-img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+}
+
+.about-floating-card {
+    position: absolute;
+    bottom: -40px;
+    right: 70px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-glow) 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    /* max-width: 300px; */
+    width: 410px;
+    height: 160px;
+    z-index: 2;
+}
+.about-floating-card h3 {
+    font-size: 2.6rem;
+    margin-bottom: 0;
+    line-height: 1.2;
+}
+
+.check-list li {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    align-items: flex-start;
+}
+
+.check-list i {
+    color: var(--accent);
+    font-size: 1.2rem;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+/* --- 2. EXPANDING CARDS (Team & Hero) --- */
+.expanding-container {
+    display: flex;
+    width: 100%;
+    height: 500px;
+    gap: var(--space-md);
+    margin: 0 auto;
+    /* Al salir el mouse del contenedor, todo vuelve a la normalidad */
+    align-items: stretch; 
+}
+
+.expanding-card {
+    position: relative;
+    height: 100%;
+    border-radius: 50px;
+    background-size: cover;
+    /* TRUCO: center 25% enfoca las caras, evitando que se vea solo un hombro o el techo */
+    background-position: center 50%; 
+    background-repeat: no-repeat;
+    
+    color: white;
+    cursor: pointer;
+    
+    /* ESTADO INICIAL (Cerradas): Todas iguales */
+    flex: 1; 
+    min-width: 80px; /* Evita que se hagan demasiado finas */
+    
+    transition: flex 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-position 0.6s ease;
+    overflow: hidden;
+}
+
+/* Oscurecer fondo suavemente */
+.expanding-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 50%);
+    opacity: 0.6; /* Un poco de oscuridad siempre para que se vea uniforme */
+    transition: opacity 0.5s;
+}
+
+/* ESTADO HOVER (Expandido) */
+.expanding-card:hover {
+    flex: 5; /* Crece mucho más que las otras */
+}
+
+.expanding-card:hover::before {
+    opacity: 1; /* Más oscuro abajo al abrirse para leer texto */
+}
+
+/* CONTENIDO */
+.expanding-content {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    opacity: 0; /* Invisible por defecto */
+    transform: translateY(20px);
+    transition: all 0.4s ease-in-out;
+    /* Delay para que aparezca el texto solo cuando la tarjeta ya se abrió un poco */
+    transition-delay: 0.1s; 
+    z-index: 2;
+}
+
+/* Mostrar contenido solo al pasar el mouse (hover) o si tiene la clase active (móvil) */
+.expanding-card:hover .expanding-content,
+.expanding-card.active .expanding-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.expanding-content h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    white-space: nowrap; /* Evita que el texto se rompa feo mientras se abre */
+}
+
+.expanding-content p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .expanding-container {
+        flex-direction: column;
+        height: 700px;
+    }
+    .expanding-card {
+        width: 100%;
+        flex: 1; /* En móvil también inician iguales */
+        background-position: center center;
+    }
+    .expanding-card:hover,
+    .expanding-card.active {
+        flex: 2; /* Crece verticalmente en móvil */
+    }
+}

@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initSmoothScroll();
     initScrollSpy();
     initThemeToggle();
+    initExpandingCards();
 });
 
 // ===== NAVBAR =====
@@ -1007,4 +1008,34 @@ function initTypeWriter() {
 
     // Iniciar TypeWriter
     new TypeWriter(txtElement, words, wait);
+}
+
+function initExpandingCards() {
+    const containers = document.querySelectorAll('.expanding-container');
+
+    containers.forEach(container => {
+        const cards = container.querySelectorAll('.expanding-card');
+
+        // Evento para resetear cuando el mouse sale de toda la sección
+        container.addEventListener('mouseleave', () => {
+            cards.forEach(c => c.classList.remove('active'));
+        });
+
+        cards.forEach(card => {
+            // Mouse entra en una tarjeta
+            card.addEventListener('mouseenter', () => {
+                // Quitamos active de todas
+                cards.forEach(c => c.classList.remove('active'));
+                // Ponemos active en la actual (opcional, ya que CSS hace el trabajo visual, 
+                // pero útil si quieres mantener lógica JS)
+                card.classList.add('active');
+            });
+            
+            // Soporte para touch en móviles (donde no hay hover)
+            card.addEventListener('click', () => {
+                cards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+            });
+        });
+    });
 }

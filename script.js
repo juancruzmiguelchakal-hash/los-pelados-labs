@@ -117,6 +117,8 @@ function initCalculator() {
     const extraSectionsInput = document.getElementById('extraSections'); // Puede ser null
     const sectionsRow = document.getElementById('sectionsRow'); // Puede ser null
     const hostingRow = document.getElementById('hostingRow'); // Puede ser null
+    const complexityRow = document.getElementById('complexityRow');
+    const extrasRow = document.getElementById('extrasRow');
     const hostingPlanSelect = document.getElementById('hostingPlan');
     const domainPlanSelect = document.getElementById('domainPlan');
     const contractDurationSelect = document.getElementById('contractDuration'); 
@@ -169,7 +171,7 @@ function initCalculator() {
         }
     }
 
-    function selectService(element, id, price, type) {
+    function selectService(element, id, minPrice, maxPrice, type) {
         const isAlreadySelected = element.classList.contains('selected');
 
         // Deseleccionar todo primero
@@ -180,18 +182,35 @@ function initCalculator() {
             window.calculatorState.selectedService = { name: '', minPrice: 0, maxPrice: 0, type: '', category: window.calculatorState.selectedService.category };
             if (sectionsRow) sectionsRow.style.display = 'none';
             if (extraSectionsInput) extraSectionsInput.value = 0;
+            // Restore visibility of optional rows
+            if (complexityRow) complexityRow.style.display = 'block';
+            if (hostingRow && window.calculatorState.selectedService.category === 'web') hostingRow.style.display = 'block';
+            if (extrasRow) extrasRow.style.display = 'block';
         } else {
             // Si no estaba seleccionado, lo seleccionamos
             element.classList.add('selected');
             window.calculatorState.selectedService = {
                 name: element.querySelector('.calc-option-title').innerText,
-                minPrice: arguments[2], // minPrice
-                maxPrice: arguments[3], // maxPrice
+                minPrice: minPrice,
+                maxPrice: maxPrice,
                 type: type,
                 category: window.calculatorState.selectedService.category
             };
-            if (sectionsRow) sectionsRow.style.display = (type === 'web_multi') ? 'block' : 'none';
-            if (extraSectionsInput && type !== 'web_multi') extraSectionsInput.value = 0;
+
+            const isCustomQuote = minPrice < 0;
+
+            // Show/hide optional rows based on whether it's a custom quote
+            if (complexityRow) complexityRow.style.display = isCustomQuote ? 'none' : 'block';
+            if (hostingRow) {
+                const isWebCategory = window.calculatorState.selectedService.category === 'web';
+                hostingRow.style.display = (isWebCategory && !isCustomQuote) ? 'block' : 'none';
+            }
+            if (extrasRow) extrasRow.style.display = isCustomQuote ? 'none' : 'block';
+            
+            if (sectionsRow) {
+                sectionsRow.style.display = (type === 'web_multi' && !isCustomQuote) ? 'block' : 'none';
+                if (type !== 'web_multi' && extraSectionsInput) extraSectionsInput.value = 0;
+            }
         }
 
         updateTotal();
@@ -201,6 +220,13 @@ function initCalculator() {
         if (!window.calculatorState.selectedService.name) {
             priceValueEl.innerText = '$0';
             priceDetailEl.innerText = 'Seleccioná un servicio';
+            return;
+        }
+
+        // Handle "A cotizar" services
+        if (window.calculatorState.selectedService.minPrice < 0) {
+            priceValueEl.innerText = 'A cotizar';
+            priceDetailEl.innerText = 'La cotización se define en una reunión con el cliente.';
             return;
         }
 
@@ -276,8 +302,8 @@ function initCalculator() {
     serviceOptions.forEach(option => {
         const onclickAttr = option.getAttribute('onclick');
         if (!onclickAttr) return;
-        // Regex mejorada para capturar los 3 argumentos de selectService()
-        const paramsMatch = onclickAttr.match(/selectService\(this, '([^']*)', (\d+), (\d+), '([^']*)'\)/);
+        // Regex to capture selectService() arguments, including negative numbers for prices
+        const paramsMatch = onclickAttr.match(/selectService\(this, '([^']*)', (-?\d+), (-?\d+), '([^']*)'\)/);
         if (!paramsMatch) return; // Skip if it doesn't match the new format
         const [, id, minPriceStr, maxPriceStr, type] = paramsMatch;
         const minPrice = parseInt(minPriceStr);
@@ -330,26 +356,40 @@ window.sendCalculatedQuote = function() {
     if (!selectedOption || !window.calculatorState || !window.calculatorState.selectedService.name) return alert('Por favor, seleccioná un servicio primero.');
 
     const serviceName = selectedOption.querySelector('.calc-option-title').innerText;
-    // Usamos el objeto `selectedService` que ya tiene la información correcta
     const serviceType = window.calculatorState.selectedService.type;
+    const isCustomQuote = window.calculatorState.selectedService.minPrice < 0;
 
-    const complexityText = document.getElementById('complexity').options[document.getElementById('complexity').selectedIndex].text;
-    const extraSections = document.getElementById('extraSections').value;
-    const extras = Array.from(document.querySelectorAll('.checkbox-item input:checked'))
-        .map(cb => cb.getAttribute('data-name')).join(', ');
+    if (isCustomQuote) {
+        let message = `Hola! Quiero cotizar un servicio personalizado:%0A`;
+        message += `🔹 Servicio: *${serviceName}*%0A`;
+        message += `Me gustaría agendar una reunión para discutir los detalles.`;
+        openWhatsApp(message);
+        return;
+    }
+
     const finalPrice = document.getElementById('priceValue').innerText;
-
     let message = `Hola! Quiero confirmar un presupuesto estimado desde la web:%0A`;
     message += `🔹 Servicio: *${serviceName}*%0A`;
-    message += `🔹 Complejidad: ${complexityText}%0A`;
 
+    // Complexity
+    const complexityRow = document.getElementById('complexityRow');
+    if (complexityRow && complexityRow.style.display !== 'none') {
+        const complexitySelect = document.getElementById('complexity');
+        const complexityText = complexitySelect.options[complexitySelect.selectedIndex].text;
+        message += `🔹 Complejidad: ${complexityText}%0A`;
+    }
+
+    // Extra Sections
+    const extraSections = document.getElementById('extraSections').value;
     if (serviceType === 'web_multi' && extraSections > 0) {
         message += `🔹 Secciones Extra: ${extraSections}%0A`;
     }
 
+    // Hosting & Domain
     const selectedCategoryBtn = document.querySelector('.category-btn.selected');
     const currentCategory = window.calculatorState.selectedService.category;
-    if (currentCategory === 'web') {
+    const hostingRow = document.getElementById('hostingRow');
+    if (currentCategory === 'web' && hostingRow && hostingRow.style.display !== 'none') {
         const duration = document.getElementById('contractDuration').options[document.getElementById('contractDuration').selectedIndex].text;
         const hosting = document.getElementById('hostingPlan').options[document.getElementById('hostingPlan').selectedIndex].text;
         const domain = document.getElementById('domainPlan').options[document.getElementById('domainPlan').selectedIndex].text;
@@ -361,7 +401,13 @@ window.sendCalculatedQuote = function() {
         }
     }
 
-    if (extras) message += `🔹 Extras: ${extras}%0A`;
+    // Extras
+    const extrasRow = document.getElementById('extrasRow');
+    if (extrasRow && extrasRow.style.display !== 'none') {
+        const extras = Array.from(document.querySelectorAll('.checkbox-item input:checked'))
+            .map(cb => cb.getAttribute('data-name')).join(', ');
+        if (extras) message += `🔹 Extras: ${extras}%0A`;
+    }
     message += `💰 *Presupuesto Estimado: ${finalPrice}*`;
 
     openWhatsApp(message);
@@ -584,7 +630,7 @@ const SERVICES_DATA = [
     {
         id: 'desarrollo',
         icon: 'fa-solid fa-code',
-        title: 'Desarrollo Web',
+        title: 'Desarrollo Digital',
         color: '#00897B', // Teal
         services: [
             { name: 'Landing Page', price: '$150k - $250k', desc: 'Página única para conversión.' },
@@ -594,7 +640,9 @@ const SERVICES_DATA = [
             { name: 'Blog', price: '$200k - $450k', desc: 'Plataforma de contenido.' },
             { name: 'Rediseño Landing', price: '$110k - $198k', desc: 'Renovación visual.' },
             { name: 'Rediseño Web', price: '$165k - $330k', desc: 'Actualización completa.' },
-            { name: 'Rediseño Tienda', price: '$220k - $660k', desc: 'Mejora de tienda.' }
+            { name: 'Rediseño Tienda', price: '$220k - $660k', desc: 'Mejora de tienda.' },
+            { name: 'Sistemas', price: 'A cotizar', desc: 'Software a medida.' },
+            { name: 'Apps Móviles', price: 'A cotizar', desc: 'iOS y Android.' }
         ]
     },
     {

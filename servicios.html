@@ -117,7 +117,7 @@
                     <div
                         style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
                         <button class="btn btn-outline category-btn selected" onclick="selectCategory('web', this)">
-                            <i class="fa-solid fa-code"></i> Desarrollo Web
+                            <i class="fa-solid fa-code"></i> Desarrollo Digital
                         </button>
                         <button class="btn btn-outline category-btn" onclick="selectCategory('design', this)">
                             <i class="fa-solid fa-palette"></i> Diseño Gráfico
@@ -176,6 +176,16 @@
                                 <div class="calc-option-icon"><i class="fa-solid fa-cart-arrow-down"></i></div>
                                 <div class="calc-option-title">Rediseño Tienda</div>
                                 <div class="calc-option-price">$220k - $660k</div>
+                            </div>
+                            <div class="calc-option" onclick="selectService(this, 'web_system', -1, -1, 'web')">
+                                <div class="calc-option-icon"><i class="fa-solid fa-database"></i></div>
+                                <div class="calc-option-title">Sistemas</div>
+                                <div class="calc-option-price">A cotizar</div>
+                            </div>
+                            <div class="calc-option" onclick="selectService(this, 'web_app', -1, -1, 'web')">
+                                <div class="calc-option-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                                <div class="calc-option-title">Apps Móviles</div>
+                                <div class="calc-option-price">A cotizar</div>
                             </div>
                         </div>
                     </div>
@@ -250,7 +260,7 @@
                 </div>
 
                 <!-- 3. COMPLEXITY -->
-                <div class="calc-row">
+                <div class="calc-row" id="complexityRow">
                     <label><i class="fa-solid fa-layer-group"></i> Nivel de Complejidad</label>
                     <select id="complexity" onchange="updateTotal()">
                         <option value="basico">Básico (Estándar)</option>
@@ -319,7 +329,7 @@
                 </div>
 
                 <!-- 6. EXTRAS -->
-                <div class="calc-row">
+                <div class="calc-row" id="extrasRow">
                     <label><i class="fa-solid fa-puzzle-piece"></i> Extras</label>
                     <div class="checkbox-group">
                         <div class="checkbox-item" onclick="toggleCheckbox(this)">
@@ -429,7 +439,7 @@
                 <!-- Desarrollo Web -->
                 <div class="card">
                     <h3 style="margin-bottom: var(--space-lg); color: #00897B;"><i class="fa-solid fa-code"></i></i>
-                        Desarrollo Web</h3>
+                        Desarrollo Digital</h3>
                     <table style="width: 100%; font-size: var(--font-size-sm); border-collapse: collapse;">
                         <tr style="border-bottom: 1px solid var(--border);">
                             <td style="padding:10px 0;">Landing Page</td>
@@ -462,6 +472,14 @@
                         <tr>
                             <td style="padding:10px 0;">Rediseño Tienda</td>
                             <td style="text-align:right; font-weight:600;">$220k - $660k</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding:10px 0;">Sistemas</td>
+                            <td style="text-align:right; font-weight:600;">A cotizar</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px 0;">Apps Móviles</td>
+                            <td style="text-align:right; font-weight:600;">A cotizar</td>
                         </tr>
                     </table>
                 </div>

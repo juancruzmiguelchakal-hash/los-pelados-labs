@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initScrollSpy();
     initThemeToggle();
     initExpandingCards();
+    handleInitialScroll();
 });
 
 // ===== NAVBAR =====
@@ -77,6 +78,58 @@ function initMobileMenu() {
             document.body.style.overflow = '';
         });
     });
+}
+
+// ===== HANDLE INITIAL SCROLL =====
+function handleInitialScroll() {
+    if (window.location.hash) {
+        const hash = window.location.hash;
+        const targetId = hash.startsWith('#') ? hash : '#' + hash;
+        
+        // Wait for page to fully load and animations to stabilize
+        setTimeout(() => {
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                const navHeight = document.querySelector('.navbar')?.offsetHeight || 0;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 30;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+
+                // If it's a category bubble, trigger the interaction
+                if (targetElement.classList.contains('category-bubble')) {
+                    const mouseEnterEvent = new MouseEvent('mouseenter', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+                    targetElement.dispatchEvent(mouseEnterEvent);
+                }
+            } else if (targetId === '#services' || targetId === '#desarrollo' || targetId === '#diseno' || targetId === '#mensuales' || targetId === '#adicionales') {
+                // If the element doesn't exist yet (maybe it's injected by JS), scroll to #services
+                const servicesSection = document.getElementById('services');
+                if (servicesSection) {
+                    const navHeight = document.querySelector('.navbar')?.offsetHeight || 0;
+                    const targetPosition = servicesSection.offsetTop - navHeight - 20;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Try to find the bubble again after a short delay
+                    setTimeout(() => {
+                        const bubble = document.querySelector(targetId);
+                        if (bubble && bubble.classList.contains('category-bubble')) {
+                            bubble.dispatchEvent(new MouseEvent('mouseenter'));
+                        }
+                    }, 300);
+                }
+            }
+        }, 800);
+    }
 }
 
 // ===== ACCORDIONS (FAQ) =====
@@ -841,6 +894,7 @@ function initRadialMap() {
 
             const catBubble = document.createElement('div');
             catBubble.className = 'category-bubble';
+            catBubble.id = cat.id; // Assign ID for navigation
             catBubble.style.left = `${x}px`;
             catBubble.style.top = `${y}px`;
             catBubble.style.transform = 'translate(-50%, -50%)';

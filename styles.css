@@ -87,6 +87,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 100px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -2805,6 +2806,8 @@ body.dark-mode .theme-toggle-btn i {
     /* Añadimos flexbox para un mejor control del contenido */
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .service-preview-card .card-icon {

@@ -1192,30 +1192,47 @@ function initTypeWriter() {
 }
 
 function initExpandingCards() {
+    // Buscamos todos los contenedores de este tipo (para que sirva en Hero y Team)
     const containers = document.querySelectorAll('.expanding-container');
 
     containers.forEach(container => {
         const cards = container.querySelectorAll('.expanding-card');
 
-        // Evento para resetear cuando el mouse sale de toda la sección
-        container.addEventListener('mouseleave', () => {
-            cards.forEach(c => c.classList.remove('active'));
-        });
-
+        // --- Lógica para Desktop (Hover) ---
+        
+        // Al entrar el mouse en una tarjeta específica
         cards.forEach(card => {
-            // Mouse entra en una tarjeta
             card.addEventListener('mouseenter', () => {
-                // Quitamos active de todas
+                // 1. Quitar 'active' de todas las hermanas
                 cards.forEach(c => c.classList.remove('active'));
-                // Ponemos active en la actual (opcional, ya que CSS hace el trabajo visual, 
-                // pero útil si quieres mantener lógica JS)
+                // 2. Poner 'active' en la actual
                 card.classList.add('active');
             });
-            
-            // Soporte para touch en móviles (donde no hay hover)
-            card.addEventListener('click', () => {
-                cards.forEach(c => c.classList.remove('active'));
-                card.classList.add('active');
+        });
+
+        // Al salir el mouse de TODO el contenedor, reseteamos todo
+        container.addEventListener('mouseleave', () => {
+             cards.forEach(c => c.classList.remove('active'));
+        });
+
+
+        // --- Lógica para Móvil (Touch/Click) ---
+        // En pantallas táctiles no hay "hover", usamos click.
+        cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Si hacemos clic en un botón/enlace dentro de la card, no queremos cerrar la card inmediatamente.
+                if (e.target.closest('a') || e.target.closest('button')) {
+                    return; 
+                }
+
+                // Si la tarjeta ya está activa, la cerramos al hacer click de nuevo
+                if (card.classList.contains('active')) {
+                     card.classList.remove('active');
+                } else {
+                    // Si no, cerramos las demás y abrimos esta
+                    cards.forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                }
             });
         });
     });

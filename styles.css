@@ -2865,7 +2865,7 @@ body.dark-mode .theme-toggle-btn i {
 }
 
 /* ============================================
-   EXPANDING CARDS & ABOUT REWORK
+   ABOUT REWORK
    ============================================ */
 
 /* --- 1. SECCIÓN SOBRE NOSOTROS (Layout Imagen + Texto) --- */
@@ -2924,106 +2924,170 @@ body.dark-mode .theme-toggle-btn i {
     flex-shrink: 0;
 }
 
-/* --- 2. EXPANDING CARDS (Team & Hero) --- */
-.expanding-container {
-    display: flex;
-    width: 100%;
-    height: 500px;
-    gap: var(--space-md);
-    margin: 0 auto;
-    /* Al salir el mouse del contenedor, todo vuelve a la normalidad */
-    align-items: stretch; 
+/* =======================================================
+   PROFILE CARDS
+   ======================================================= */
+
+/* Contenedor Grid para las tarjetas (Reemplaza al flex container anterior) */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+    justify-items: center; /* Centrar tarjetas */
 }
 
-.expanding-card {
+/* LA TARJETA PRINCIPAL */
+.profile-card {
     position: relative;
-    height: 100%;
-    border-radius: 50px;
-    background-size: cover;
-    /* TRUCO: center 25% enfoca las caras, evitando que se vea solo un hombro o el techo */
-    background-position: center 50%; 
-    background-repeat: no-repeat;
-    
-    color: white;
-    cursor: pointer;
-    
-    /* ESTADO INICIAL (Cerradas): Todas iguales */
-    flex: 1; 
-    min-width: 80px; /* Evita que se hagan demasiado finas */
-    
-    transition: flex 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-position 0.6s ease;
+    width: 100%;
+    height: 560px; /* Altura fija importante para la animación */
+    background-color: #1c1c1e; /* Fondo oscuro casi negro (Referencia) */
+    border-radius: 40px; /* Bordes muy redondeados (Referencia) */
+    padding: 12px; /* Espacio entre el borde de la tarjeta y la imagen interna */
     overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid #333; /* Borde sutil oscuro */
 }
 
-/* Oscurecer fondo suavemente */
-.expanding-card::before {
-    content: '';
+/* Sombra suave */
+.profile-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+}
+
+/* IMAGEN (El cuadro superior) */
+.profile-img {
+    width: 100%;
+    height: 340px; /* Altura inicial de la imagen */
+    background-size: cover;
+    background-position: center;
+    border-radius: 30px; /* Radio interno */
+    transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1); /* Animación fluida */
+    position: relative;
+    z-index: 0;
+}
+
+/* HOVER: La imagen crece para llenar todo */
+.profile-card:hover .profile-img {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 50%);
-    opacity: 0.6; /* Un poco de oscuridad siempre para que se vea uniforme */
-    transition: opacity 0.5s;
+    border-radius: 40px; /* Hereda el radio del padre */
+    margin: 0;
+    z-index: 0;
 }
 
-/* ESTADO HOVER (Expandido) */
-.expanding-card:hover {
-    flex: 5; /* Crece mucho más que las otras */
-}
-
-.expanding-card:hover::before {
-    opacity: 1; /* Más oscuro abajo al abrirse para leer texto */
-}
-
-/* CONTENIDO */
-.expanding-content {
+/* Overlay degradado (Solo visible en Hover para leer texto) */
+.profile-img::after {
+    content: '';
     position: absolute;
-    bottom: 30px;
-    left: 30px;
-    right: 30px;
-    opacity: 0; /* Invisible por defecto */
-    transform: translateY(20px);
-    transition: all 0.4s ease-in-out;
-    /* Delay para que aparezca el texto solo cuando la tarjeta ya se abrió un poco */
-    transition-delay: 0.1s; 
-    z-index: 2;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease 0.1s;
+    border-radius: inherit;
 }
 
-/* Mostrar contenido solo al pasar el mouse (hover) o si tiene la clase active (móvil) */
-.expanding-card:hover .expanding-content,
-.expanding-card.active .expanding-content {
+.profile-card:hover .profile-img::after {
     opacity: 1;
-    transform: translateY(0);
 }
 
-.expanding-content h3 {
-    font-size: 2rem;
+/* CONTENIDO DE TEXTO */
+.profile-content {
+    padding: 20px 10px 10px 10px;
+    color: white;
+    position: relative;
+    z-index: 1; /* Encima de la imagen expandida */
+    margin-top: auto; /* Empuja el contenido abajo en estado normal */
+    transition: transform 0.5s ease;
+}
+
+/* Ajuste de posición del texto al hacer hover */
+.profile-card:hover .profile-content {
+    transform: translateY(-10px); /* Sube un poco */
+}
+
+/* Título / Nombre */
+.profile-name {
+    font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 5px;
-    text-transform: uppercase;
-    white-space: nowrap; /* Evita que el texto se rompa feo mientras se abre */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Sombra para legibilidad */
 }
 
-.expanding-content p {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.9);
+/* Badge de verificado (Verde) */
+.verified-badge {
+    color: #00E676; /* Verde brillante */
+    font-size: 1.2rem;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .expanding-container {
-        flex-direction: column;
-        height: 700px;
-    }
-    .expanding-card {
-        width: 100%;
-        flex: 1; /* En móvil también inician iguales */
-        background-position: center center;
-    }
-    .expanding-card:hover,
-    .expanding-card.active {
-        flex: 2; /* Crece verticalmente en móvil */
-    }
+/* Rol / Descripción */
+.profile-role {
+    font-size: 0.95rem;
+    color: #9e9e9e; /* Gris claro */
+    line-height: 1.4;
+    margin-bottom: 25px;
+    transition: color 0.3s;
+}
+
+.profile-card:hover .profile-role {
+    color: #e0e0e0; /* Se aclara en hover */
+}
+
+/* FOOTER DE LA TARJETA (Estadísticas y Botón) */
+.profile-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.profile-stats span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+
+.profile-stats i {
+    color: #bdbdbd;
+}
+
+/* BOTÓN DE ACCIÓN */
+.profile-btn {
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    
+    /* Estado Normal: Oscuro (input style) */
+    background-color: #333; 
+    color: white;
+}
+
+/* Estado Hover: Blanco (Referencia imagen derecha) */
+.profile-card:hover .profile-btn {
+    background-color: white;
+    color: black;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }

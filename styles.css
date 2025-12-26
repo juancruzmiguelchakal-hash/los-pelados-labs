@@ -3341,6 +3341,7 @@ body.dark-mode .gallery-card-inner::after {
     color: var(--accent);
     background-color: var(--glass);
 }
+
 /* --- GALLERY MODAL --- */
 .gallery-modal {
     position: fixed;
@@ -3455,16 +3456,42 @@ body.dark-mode .gallery-card-inner::after {
     .modal-body {
         grid-template-columns: 1fr;
     }
-    
+
     .modal-image-container {
         height: 300px;
     }
-    
+
     .modal-info {
         padding: 30px;
     }
-    
+
     .modal-info h2 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Responsive layout for Nosotros section */
+@media (max-width: 768px) {
+    .about-split-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+
+    .about-main-img {
+        height: 300px;
+    }
+
+    .about-floating-card {
+        position: relative;
+        width: 100%;
+        right: 0;
+        bottom: 0;
+        margin-top: var(--space-md);
+        height: auto;
+        padding: 1.5rem;
+    }
+
+    .about-floating-card h3 {
         font-size: 1.8rem;
     }
 }

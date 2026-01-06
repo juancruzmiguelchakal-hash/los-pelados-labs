@@ -15,7 +15,6 @@
 - [Estructura del Proyecto](#-estructura-del-proyecto)
 - [Funcionalidades Destacadas](#-funcionalidades-destacadas)
 - [El Equipo](#-el-equipo)
-- [Contacto](#-contacto)
 
 ---
 
@@ -65,6 +64,7 @@ cruxio/
 ├── styles.css          # Hoja de estilos principal y sistema de diseño
 ├── script.js           # Lógica principal, calculadora, animaciones y menú
 └── README.md           # Documentación
+```
 
 ---
 

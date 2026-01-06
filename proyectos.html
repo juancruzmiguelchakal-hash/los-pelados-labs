@@ -21,8 +21,9 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <i class="fa-solid fa-bolt"></i>
-                <span>Pelados</span>Labs
+                <img src="/assets/images/logopositivo.png" alt="cruxio Logo" class="nav-logo-img"
+                    style="height: 30px; margin-right: 10px;">
+                <span>cruxio</span>
             </a>
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">Inicio</a>
@@ -51,19 +52,7 @@
         </div>
     </section>
 
-    <!-- Filter -->
-    <section id="filter" style="padding-top: 50px;">
-        <div class="container">
-            <div class="btn-group" style="justify-content: center; flex-wrap: wrap;" data-aos="fade-up">
-                <button class="btn btn-primary btn-sm" onclick="filterProjects('all')">Todos</button>
-                <button class="btn btn-outline btn-sm" onclick="filterProjects('web')">Proyectos Web</button>
-                <button class="btn btn-outline btn-sm" onclick="filterProjects('foto')">Edición Fotos</button>
-                <button class="btn btn-outline btn-sm" onclick="filterProjects('video')">Edición Videos</button>
-                <button class="btn btn-outline btn-sm" onclick="filterProjects('redes')">Redes Sociales</button>
-                <button class="btn btn-outline btn-sm" onclick="filterProjects('logo')">Logos y Diseño</button>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Projects -->
     <section id="projects">
@@ -81,7 +70,7 @@
                             <span class="tag">Web</span>
                             <span class="tag">Branding</span>
                         </div>
-                        <h3 class="card-title">Pelados Labs Agency</h3>
+                        <h3 class="card-title">cruxio Agency</h3>
                         <p class="card-text">Nuestra propia plataforma. Diseño moderno, colores premium y optimización
                             total.</p>
                         <a href="index.html" class="btn btn-outline btn-sm" style="width: 100%;">
@@ -90,12 +79,9 @@
                     </div>
                 </div>
 
-                <!-- PROYECTOS WEB -->
-
                 <!-- VisionCraft -->
                 <div class="card project-card" data-category="web" data-aos="fade-up" data-aos-delay="100">
                     <div class="project-image">
-                        <!-- EDITABLE: Captura del proyecto -->
                         <i class="fa-solid fa-eye"></i>
                     </div>
                     <div class="project-content">
@@ -133,172 +119,22 @@
                     </div>
                 </div>
 
-                <!-- Placeholder Web -->
-                <div class="card project-card" data-category="web" data-aos="fade-up" data-aos-delay="200">
-                    <div class="project-image">
-                        <i class="fa-solid fa-laptop-code"></i>
+                <!-- Gallery CTA Card -->
+                <a href="galeria.html" class="card project-card gallery-cta-card" data-aos="fade-up"
+                    data-aos-delay="200" style="text-decoration: none; display: flex; flex-direction: column;">
+                    <div class="project-image"
+                        style="background: var(--accent-gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                        <i class="fa-solid fa-images"></i>
                     </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag">Web</span>
-                            <span class="tag">Coming Soon</span>
+                    <div class="project-content"
+                        style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                        <h3 class="card-title">Ver otros proyectos</h3>
+                        <p class="card-text">Explorar trabajos de diseño, edición de video y redes sociales.</p>
+                        <div class="btn btn-primary btn-sm" style="margin-top: var(--space-md); pointer-events: none;">
+                            Ir a la Galería <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
                         </div>
-                        <h3 class="card-title">
-                            <!-- EDITABLE -->
-                            Próximo Proyecto Web
-                        </h3>
-                        <p class="card-text">Espacio reservado para futuros proyectos web.</p>
-                        <a href="#" class="btn btn-outline btn-sm" style="width: 100%;">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver Más
-                        </a>
                     </div>
-                </div>
-
-                <!-- EDICIÓN FOTOS -->
-
-                <div class="card project-card" data-category="foto" data-aos="fade-up" data-aos-delay="100">
-                    <div class="project-image">
-                        <i class="fa-solid fa-image"></i>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag">Fotografía</span>
-                            <span class="tag">Retoque</span>
-                        </div>
-                        <h3 class="card-title">
-                            <!-- EDITABLE -->
-                            Edición de Producto
-                        </h3>
-                        <p class="card-text">Retoque profesional y optimización de imágenes para catálogos.</p>
-                        <a href="galeria.html?category=foto" class="btn btn-outline btn-sm" style="width: 100%;">Ver galería</a>
-                    </div>
-                </div>
-
-                <div class="card project-card" data-category="foto" data-aos="fade-up" data-aos-delay="150">
-                    <div class="project-image">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag">Fotografía</span>
-                            <span class="tag">Antes/Después</span>
-                        </div>
-                        <h3 class="card-title">Corrección de Color</h3>
-                        <p class="card-text">Mejoras de iluminación y color para fotografías profesionales.</p>
-                        <a href="galeria.html?category=foto" class="btn btn-outline btn-sm" style="width: 100%;">Ver galería</a>
-                    </div>
-                </div>
-
-                <!-- EDICIÓN VIDEOS -->
-
-                <div class="card project-card" data-category="video" data-aos="fade-up" data-aos-delay="100">
-                    <div class="project-image">
-                        <i class="fa-solid fa-video"></i>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag">Video</span>
-                            <span class="tag">Redes</span>
-                        </div>
-                        <h3 class="card-title">Reels Promocionales</h3>
-                        <p class="card-text">Edición de videos cortos para Instagram y TikTok.</p>
-                        <a href="galeria.html?category=video" class="btn btn-outline btn-sm" style="width: 100%;">Ver ejemplos</a>
-                    </div>
-                </div>
-
-                <div class="card project-card" data-category="video" data-aos="fade-up" data-aos-delay="150">
-                    <div class="project-image">
-                        <i class="fa-solid fa-film"></i>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag">Video</span>
-                            <span class="tag">YouTube</span>
-                        </div>
-                        <h3 class="card-title">Videos para YouTube</h3>
-                        <p class="card-text">Edición completa con intro, transiciones y efectos.</p>
-                        <a href="galeria.html?category=video" class="btn btn-outline btn-sm" style="width: 100%;">Ver ejemplos</a>
-                    </div>
-                </div>
-
-                <!-- REDES SOCIALES -->
-
-                <div class="card project-card" data-category="redes" data-aos="fade-up" data-aos-delay="100">
-                    <div class="project-image">
-                        <i class="fa-brands fa-instagram"></i>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag">Redes</span>
-                            <span class="tag">Instagram</span>
-                        </div>
-                        <h3 class="card-title">Feed Instagram</h3>
-                        <p class="card-text">Diseño de publicaciones y stories para perfiles de negocios.</p>
-                        <a href="galeria.html?category=redes" class="btn btn-outline btn-sm" style="width: 100%;">Ver ejemplos</a>
-                    </div>
-                </div>
-
-                <div class="card project-card" data-category="redes" data-aos="fade-up" data-aos-delay="150">
-                    <div class="project-image">
-                        <i class="fa-solid fa-share-nodes"></i>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag">Redes</span>
-                            <span class="tag">Carruseles</span>
-                        </div>
-                        <h3 class="card-title">Carruseles Informativos</h3>
-                        <p class="card-text">Posts deslizables con contenido de valor.</p>
-                        <a href="galeria.html?category=redes" class="btn btn-outline btn-sm" style="width: 100%;">Ver ejemplos</a>
-                    </div>
-                </div>
-
-                <!-- LOGOS Y DISEÑO -->
-
-                <div class="card project-card" data-category="logo" data-aos="fade-up" data-aos-delay="100">
-                    <div class="project-image">
-                        <i class="fa-solid fa-pen-ruler"></i>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag">Logo</span>
-                            <span class="tag">Branding</span>
-                        </div>
-                        <h3 class="card-title">Diseño de Logos</h3>
-                        <p class="card-text">Identidad visual para marcas y emprendimientos.</p>
-                        <a href="galeria.html?category=logo" class="btn btn-outline btn-sm" style="width: 100%;">Ver galería</a>
-                    </div>
-                </div>
-
-                <div class="card project-card" data-category="logo" data-aos="fade-up" data-aos-delay="150">
-                    <div class="project-image">
-                        <i class="fa-solid fa-newspaper"></i>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag">Diseño</span>
-                            <span class="tag">Flyers</span>
-                        </div>
-                        <h3 class="card-title">Flyers y Banners</h3>
-                        <p class="card-text">Piezas gráficas para promociones y eventos.</p>
-                        <a href="galeria.html?category=logo" class="btn btn-outline btn-sm" style="width: 100%;">Ver galería</a>
-                    </div>
-                </div>
-
-                <div class="card project-card" data-category="logo" data-aos="fade-up" data-aos-delay="200">
-                    <div class="project-image">
-                        <i class="fa-solid fa-id-card"></i>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-tags">
-                            <span class="tag">Diseño</span>
-                            <span class="tag">Tarjetas</span>
-                        </div>
-                        <h3 class="card-title">Tarjetas de Presentación</h3>
-                        <p class="card-text">Diseño profesional para networking.</p>
-                        <a href="galeria.html?category=logo" class="btn btn-outline btn-sm" style="width: 100%;">Ver galería</a>
-                    </div>
-                </div>
+                </a>
 
             </div>
         </div>
@@ -329,7 +165,11 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="footer-brand-name"><i class="fa-solid fa-bolt"></i> <span>Pelados</span>Labs</div>
+                    <div class="footer-brand-name">
+                        <img src="/assets/images/logopositivo.png" alt="cruxio Logo" class="footer-logo-img"
+                            style="height: 25px; margin-right: 10px;">
+                        <span>cruxio</span>
+                    </div>
                     <p class="footer-brand-text">Desarrollo web profesional orientado a resultados.</p>
                     <div class="footer-social" style="margin-top: var(--space-lg);">
                         <a href="#" target="_blank" class="footer-social-link"><i class="fa-brands fa-github"></i></a>
@@ -373,7 +213,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="footer-copyright">© 2025 Pelados Labs. Todos los derechos reservados.</p>
+                <p class="footer-copyright">© 2025 cruxio. Todos los derechos reservados.</p>
                 <div class="footer-legal"><a href="#">Privacidad</a><a href="#">Términos</a></div>
             </div>
         </div>
@@ -385,27 +225,7 @@
     <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
     <script src="script.js"></script>
 
-    <script>
-        function filterProjects(category) {
-            const projects = document.querySelectorAll('.project-card');
-            const buttons = document.querySelectorAll('#filter .btn');
 
-            buttons.forEach(btn => {
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-outline');
-            });
-            event.target.classList.remove('btn-outline');
-            event.target.classList.add('btn-primary');
-
-            projects.forEach(project => {
-                if (category === 'all' || project.dataset.category === category) {
-                    project.style.display = 'block';
-                } else {
-                    project.style.display = 'none';
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>

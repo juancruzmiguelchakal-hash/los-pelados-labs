@@ -5,7 +5,7 @@
 // ===== CONFIGURATION =====
 const CONFIG = {
     // Datos de contacto
-    whatsappNumber: '5491130489378', // Pelados Labs WhatsApp
+    whatsappNumber: '5491130489378', // cruxio WhatsApp
     calendlyUrl: 'https://calendly.com/juancruzmiguelchakal/presentacion-de-ideas',
     email: 'peladoslabs@gmail.com',
 
@@ -29,8 +29,43 @@ const CONFIG = {
     }
 };
 
+// ===== LAYOUT LOADER =====
+async function loadLayout() {
+    const headerTask = fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+            // Highlight active link
+            const currentPage = window.location.pathname.split("/").pop() || 'index.html';
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+
+    const footerTask = fetch('footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        });
+
+    await Promise.all([headerTask, footerTask]);
+}
+
 // ===== DOM READY =====
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
+    // Load components first
+    try {
+        await loadLayout();
+    } catch (error) {
+        console.error('Error loading layout:', error);
+    }
+
+    // Initialize all components after layout is ready
     initNavbar();
     initMobileMenu();
     initAccordions();
@@ -41,6 +76,15 @@ document.addEventListener('DOMContentLoaded', function () {
     initThemeToggle();
     initExpandingCards();
     handleInitialScroll();
+
+    // Re-check theme for dynamic logos on shared components
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        const logos = document.querySelectorAll('img[alt="cruxio Logo"]');
+        logos.forEach(logo => {
+            logo.src = '/assets/images/logonegativo.png';
+        });
+    }
 });
 
 // ===== NAVBAR =====
@@ -1098,11 +1142,19 @@ function initThemeToggle() {
     const moonIcon = 'fa-moon';
     const sunIcon = 'fa-sun';
 
+    function updateLogos(isDark) {
+        const logos = document.querySelectorAll('img[alt="cruxio Logo"]');
+        logos.forEach(logo => {
+            logo.src = isDark ? '/assets/images/logonegativo.png' : '/assets/images/logopositivo.png';
+        });
+    }
+
     function enableDarkMode() {
         body.classList.add('dark-mode');
         icon.classList.remove(moonIcon);
         icon.classList.add(sunIcon);
         localStorage.setItem('theme', 'dark');
+        updateLogos(true);
     }
 
     function disableDarkMode() {
@@ -1110,6 +1162,7 @@ function initThemeToggle() {
         icon.classList.remove(sunIcon);
         icon.classList.add(moonIcon);
         localStorage.setItem('theme', 'light');
+        updateLogos(false);
     }
 
     const savedTheme = localStorage.getItem('theme');
@@ -1328,7 +1381,7 @@ function initCircularGallery() {
         if (!modal) return;
         const img = card.querySelector('img');
         const title = card.getAttribute('data-title') || "Proyecto Vertex";
-        const desc = card.getAttribute('data-desc') || "Descripción detallada del trabajo realizado por Pelados Labs.";
+        const desc = card.getAttribute('data-desc') || "Descripción detallada del trabajo realizado por cruxio.";
 
         modalImg.src = img.src;
         modalTitle.textContent = title;
@@ -1361,3 +1414,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initExpandingCards();
     if (typeof AOS !== 'undefined') AOS.init();
 });
+

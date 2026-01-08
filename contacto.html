@@ -21,7 +21,8 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="/assets/images/logopositivo.png" alt="cruxio Logo" class="nav-logo-img" style="height: 30px; margin-right: 10px;">
+                <img src="/assets/images/logopositivo.png" alt="cruxio Logo" class="nav-logo-img"
+                    style="height: 30px; margin-right: 10px;">
                 <span>cruxio</span>
             </a>
             <div class="nav-menu">
@@ -115,7 +116,9 @@
                 <!-- Contact Form -->
                 <div class="contact-form" data-aos="fade-left">
                     <!-- EDITABLE: Reemplazar TU_EMAIL_AQUI con tu email de FormSubmit -->
-                    <form action="https://formsubmit.co/TU_EMAIL_AQUI" method="POST">
+                    <form id="contactForm" method="POST">
+                        <input type="hidden" name="access_key" value="18f67c0f-3a20-4e97-98c3-2ba90949aed9">
+
                         <div class="form-group">
                             <label class="form-label" for="name">Nombre</label>
                             <input type="text" id="name" name="name" class="form-input" placeholder="Tu nombre completo"
@@ -166,13 +169,6 @@
                             <textarea id="message" name="message" class="form-textarea"
                                 placeholder="Contame sobre tu proyecto..." required></textarea>
                         </div>
-
-                        <!-- FormSubmit config -->
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_template" value="table">
-                        <!-- EDITABLE: URL de éxito después de enviar -->
-                        <input type="hidden" name="_next" value="https://tudominio.com/gracias.html">
-                        <input type="hidden" name="_subject" value="Nuevo mensaje desde cruxio">
 
                         <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
                             <i class="fa-solid fa-paper-plane"></i> Enviar Mensaje

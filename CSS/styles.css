@@ -619,7 +619,7 @@ h6 {
 }
 
 .project-card:hover .project-image i {
-    color: var(--accent);
+    color: #e6e6e6;
     transform: scale(1.1);
 }
 
@@ -647,8 +647,8 @@ h6 {
 
 .tag {
     padding: var(--space-xs) var(--space-md);
-    background: rgba(0, 137, 123, 0.1);
-    color: var(--accent);
+    background: #52675f;
+    color: #e6e6e6;
     font-size: var(--font-size-xs);
     border-radius: var(--radius-full);
 }
@@ -832,7 +832,7 @@ h6 {
 }
 
 .timeline-content {
-    background: var(--bg-secondary);
+    background: #182526;
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: var(--space-xl);
@@ -845,12 +845,14 @@ h6 {
 }
 
 .timeline-title {
+    margin-top: 16px;
+    color: #e6e6e6;
     font-size: var(--font-size-lg);
     margin-bottom: var(--space-sm);
 }
 
 .timeline-text {
-    color: var(--text-secondary);
+    color: #e6e6e6;
     font-size: var(--font-size-sm);
 }
 
@@ -1796,7 +1798,7 @@ h6 {
 
 /* Hero Title Animation */
 .hero-title span {
-    background: linear-gradient(90deg, var(--accent), var(--accent-glow), #0288D1, var(--accent));
+    background: linear-gradient(90deg, var(--accent), var(--accent-glow), #52675f, var(--accent));
     background-size: 300% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1948,7 +1950,7 @@ h6 {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: #52675f;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -2214,12 +2216,13 @@ h6 {
 }
 
 .price-result {
-    background: var(--gradient-accent);
+    background: #52675f;
     border-radius: var(--radius-lg);
     padding: var(--space-2xl);
     text-align: center;
     margin-top: var(--space-xl);
     box-shadow: var(--shadow-lg);
+    color: white;
 }
 
 .price-result-value {
@@ -2508,7 +2511,7 @@ body::before {
 .step-discount {
     font-size: var(--font-size-lg);
     font-weight: 700;
-    color: var(--success);
+    color: #0b0b0b;
 }
 
 /* --- CONTRACTS SECTION --- */
@@ -2719,14 +2722,14 @@ body.no-cursor .txt-type::after {
 body.dark-mode {
     --bg-primary: #0b0b0b;
     /* Slate 900 */
-    --bg-secondary: #182526;
+    --bg-secondary: #52675f;
     /* Slate 800 */
-    --bg-tertiary: #131d1e;
+    --bg-tertiary: #2e3d37;
     /* Slate 700 */
 
     --text-primary: #e6e6e8;
     /* Slate 100 */
-    --text-secondary: #b0b0a9;
+    --text-secondary: #e6e6e8;
     /* Slate 300 */
     --text-muted: #52675f;
     /* Slate 400 */
@@ -2747,12 +2750,17 @@ body.dark-mode .nav-logo span {
     text-shadow: 0 0 10px rgba(0, 137, 123, 0.5);
 }
 
+body.dark-mode .timeline-content {
+    background-color: #52675f;
+}
+
 body.dark-mode .navbar {
-    background: rgba(15, 23, 42, 0.85);
+    background: #0b0b0b;
 }
 
 body.dark-mode .navbar.scrolled {
-    background: rgba(15, 23, 42, 0.95);
+    background: #0b0b0b;
+    opacity: 0.95;
 }
 
 /* Radial Map Dark Mode */
@@ -2768,7 +2776,7 @@ body.dark-mode .service-bubble {
 }
 
 body.dark-mode .project-card .project-image::before {
-    background: rgba(15, 23, 42, 0.95);
+    background: #e6e6e8;
     /* bg-primary oscuro */
 }
 
@@ -2971,7 +2979,7 @@ body.dark-mode .theme-toggle-btn i {
 /* LA TARJETA PRINCIPAL */
 .perfil-tarjeta {
   width: 280px; 
-  background: var(--card-bg);
+  background: #182526;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
@@ -3039,7 +3047,7 @@ body.dark-mode .theme-toggle-btn i {
 }
 
 .role {
-  color: var(--accent);
+  color: #e6e6e6;
   font-weight: 500;
   font-size: 0.9rem;
   margin-bottom: 1.2rem;
@@ -3064,7 +3072,7 @@ body.dark-mode .theme-toggle-btn i {
 }
 
 .bio {
-  color: var(--text-secondary);
+  color: #e6e6e6;
   font-size: 0.9rem;
   line-height: 1.5;
   margin-bottom: 1.5rem;
@@ -3080,8 +3088,8 @@ body.dark-mode .theme-toggle-btn i {
 }
 
 .skill {
-  background: rgba(110, 69, 224, 0.1);
-  color: var(--accent);
+  background: #52675f;
+  color: #e6e6e6;
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
   font-size: 0.75rem;
@@ -3106,8 +3114,8 @@ body.dark-mode .theme-toggle-btn i {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  background: #52675f;
   transition: all 0.3s;
   text-decoration: none;
 }
